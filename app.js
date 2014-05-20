@@ -4,6 +4,15 @@ var http = require('http');
 var path = require('path');
 var handlebars = require('express3-handlebars');
 var app = express();
+var dotenv = require('dotenv');
+dotenv.load();
+
+var yelp = require("yelp").createClient({
+  consumer_key: process.env.CONSUMER_KEY, 
+  consumer_secret: process.env.CONSUMER_SECRET,
+  token: process.env.TOKEN,
+  token_secret: process.env.TOKEN_SECRET
+});
 
 //route files to load
 var index = require('./routes/index');
@@ -22,7 +31,11 @@ app.use(express.bodyParser());
 //routes
 app.get('/', index.view);
 app.get('/search', function(req, res) {
-  res.render('index', { query: req.param("query") });
+  yelp.search({term: req.param("query"), location: "La Jolla, CA USA"}, function(error, data) {
+    console.log(error);
+    console.log(data);
+    res.render('index', { query: req.param("query"), results: data });
+  });
 });
 //set environment ports and start application
 app.set('port', process.env.PORT || 3000);

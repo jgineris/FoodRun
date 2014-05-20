@@ -40,7 +40,11 @@
             <form action="search">
               <input type="text" class="form-control" name="query" placeholder="search" value="{{#if query}}{{query}}{{/if}}" required>
             </form>
-            <p>{{#if query}}you searched for {{query}}{{else}}search for something above{{/if}}</p>
+            <ol>
+              {{#each results.businesses}}
+              <li>{{name}}</li>
+              {{/each}}
+            </ol>
           </div>
           <div class="col-md-8"><h3>map goes here</h3></div>
         </div>
