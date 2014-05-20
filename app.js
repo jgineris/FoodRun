@@ -31,10 +31,16 @@ app.use(express.bodyParser());
 //routes
 app.get('/', index.view);
 app.get('/search', function(req, res) {
-  yelp.search({term: req.param("query"), location: "La Jolla, CA USA"}, function(error, data) {
+  var params;
+  if(req.param("location").indexOf("current location") !== -1) {
+    params = {term: req.param("query"), ll: req.param("ll")}
+  } else {
+    params = {term: req.param("query"), location: req.param("location")};
+  }
+  yelp.search(params, function(error, data) {
     console.log(error);
     console.log(data);
-    res.render('index', { query: req.param("query"), results: data });
+    res.render('index', { query: req.param("query"), location: req.param("location"), results: data });
   });
 });
 //set environment ports and start application
