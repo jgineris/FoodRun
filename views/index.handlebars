@@ -19,17 +19,31 @@
 
 <body>
       <div class="container">
-      	
-        <form class="formSignIn" role="form">
-          <h1 class="foodRunLoginHeading">Food Run Login</h1>
-          <input type="text" class="form-control" placeholder="Username" required autofocus>
-          <input type="password" class="form-control" placeholder="Password" required>
-          <button class="btn btn-default btn-block" type="submit">Login</button>
-          
-          <h4 class="foodRunSignUpHeading"> Or sign up for Food Run here ... </h4>
-          <button class="btn btn-default btn-block" type="submit">Sign Up</button>
-
-        </form>
+      	<div class="row">
+          <div class="col-md-4 col-md-offset-4">
+            <form role="form">
+              <h1>Food Run Login</h1>
+              <input type="text" class="form-control" placeholder="Username" required autofocus>
+              <input type="password" class="form-control" placeholder="Password" required>
+              <button class="btn btn-default btn-block" type="submit">Login</button>
+              
+              <h4> Or sign up for Food Run here ... </h4>
+              <button class="btn btn-default btn-block" type="submit">Sign Up</button>
+            </form>
+          </div> 
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <h2>Search for food places</h2>
+          </div>
+          <div class="col-md-4">
+            <form action="search">
+              <input type="text" class="form-control" name="query" placeholder="search" value="{{#if query}}{{query}}{{/if}}" required>
+            </form>
+            <p>{{#if query}}you searched for {{query}}{{else}}search for something above{{/if}}</p>
+          </div>
+          <div class="col-md-8"><h3>map goes here</h3></div>
+        </div>
       </div>
     <script src="https://code.jquery.com/jquery.js"></script>
     <script src="js/bootstrap.js"></script>
