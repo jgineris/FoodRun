@@ -61,7 +61,10 @@
             </form>
             <ol>
               {{#each results.businesses}}
-              <li>{{name}}</li>
+              <li>
+                <p><a href="/listing/{{id}}">{{name}}</a></p>
+                <p>Yelp Rating: <img src="{{rating_img_url}}"/></p>
+              </li>
               {{/each}}
             </ol>
           </div>
