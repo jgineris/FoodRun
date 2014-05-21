@@ -1,0 +1,68 @@
+<!doctype html>
+
+<html>
+<head>
+	<title>{{listing.name}} - Food Run</title>	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->        
+      <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+      <script>
+      "use strict";
+      getLocation();
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+          showError();
+        }
+      }
+      function showPosition(position) {
+        document.getElementById("ll").value = position.coords.latitude+","+position.coords.longitude;
+        if(document.getElementById("locationInput").value === "La Jolla, CA")
+          document.getElementById("locationInput").value = "current location (" + position.coords.latitude+","+position.coords.longitude + ")";
+        console.log(position.coords.latitude+","+position.coords.longitude);
+      }
+      </script>
+</head>
+
+<body>
+      <div class="container">
+      	<div class="row">
+          <div class="col-md-4 col-md-offset-4">
+            <form role="form">
+              <h1>Food Run Login</h1>
+              <input type="text" class="form-control" placeholder="Username" required autofocus>
+              <input type="password" class="form-control" placeholder="Password" required>
+              <button class="btn btn-default btn-block" type="submit">Login</button>
+              
+              <h4> Or sign up for Food Run here ... </h4>
+              <button class="btn btn-default btn-block" type="submit">Sign Up</button>
+            </form>
+          </div> 
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <h2>{{listing.name}}</h2>
+            <p>Yelp Rating: <img src="{{listing.rating_img_url}}"></p>
+          </div>
+          <div class="col-md-6">
+            <p>{{listing.location.cross_streets}}</p>
+            <address>{{#each listing.location.display_address}}{{this}}<br>{{/each}}</address>
+          </div>
+          <div class="col-md-6">
+            
+          </div>
+        </div>
+      </div>
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
+</body>
+</html>

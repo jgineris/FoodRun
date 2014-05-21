@@ -4,6 +4,7 @@ var http = require('http');
 var path = require('path');
 var handlebars = require('express3-handlebars');
 var app = express();
+var mongoose = require('mongoose');
 var dotenv = require('dotenv');
 dotenv.load();
 
@@ -18,8 +19,10 @@ var yelp = require("yelp").createClient({
 var index = require('./routes/index');
 
 //database setup - uncomment to set up your database
-//var mongoose = require('mongoose');
-//mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost/DATABASE1);
+var local_database_name = 'foodrun';
+var local_database_uri  = 'mongodb://localhost/' + local_database_name
+var database_uri = process.env.MONGOLAB_URI || local_database_uri
+mongoose.connect(database_uri);
 
 //Configures the Template engine
 app.engine('handlebars', handlebars());
@@ -43,6 +46,17 @@ app.get('/search', function(req, res) {
     res.render('index', { query: req.param("query"), location: req.param("location"), results: data });
   });
 });
+
+app.get('/listing/:id', function(req, res) {
+  console.log(req.param('id'));
+  yelp.business(req.param('id'), function(error, data) {
+    console.log(error);
+    console.log(data);
+    res.render('listing', { listing: data });
+  });
+});
+app.get('/listing/', index.view);
+
 //set environment ports and start application
 app.set('port', process.env.PORT || 3000);
 http.createServer(app).listen(app.get('port'), function(){
