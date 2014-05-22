@@ -64,6 +64,7 @@
               <li>
                 <p><a href="/listing/{{id}}">{{name}}</a></p>
                 <p>Yelp Rating: <img src="{{rating_img_url}}"/></p>
+                <p>Food Run Rating: {{#if foodrunStars}}{{foodrunStars}}{{else}}no ratings yet{{/if}}</p>
               </li>
               {{/each}}
             </ol>

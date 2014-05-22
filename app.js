@@ -44,6 +44,28 @@ app.get('/search', function(req, res) {
   yelp.search(params, function(error, data) {
     console.log(error);
     console.log(data);
+
+    for (var i = data.businesses.length - 1; i >= 0; i--) {
+      models.Review
+          .find({'yelpId': data.businesses[i].id})
+          .exec(averageRating);
+
+      function averageRating(err, results) {
+        var average = 0;
+        for (var j = results.length - 1; j >= 0; j--) {
+          average += results[j].stars;
+        };
+        if(results.length !== 0) {
+          for (var k = data.businesses.length - 1; k >= 0; k--) {
+            if(data.businesses[k].id === results[0].yelpId) {
+              data.businesses[k].foodrunStars = average/results.length;
+              break;
+            }
+          };
+        }
+      }
+    };
+
     res.render('index', { query: req.param("query"), location: req.param("location"), results: data });
   });
 });
