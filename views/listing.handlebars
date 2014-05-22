@@ -56,9 +56,32 @@
           <div class="col-md-6">
             <p>{{listing.location.cross_streets}}</p>
             <address>{{#each listing.location.display_address}}{{this}}<br>{{/each}}</address>
+            <h3>Reviews</h3>
+            <ul>
+              {{#each reviews}}
+                <li>
+                  <p>Name: {{fbId}}</p>
+                  <p>Date: {{date}}</p>
+                  <p>Stars: {{stars}}</p>
+                  <p>Review: {{reviewText}}</p>
+                </li>
+              {{/each}}
+            </ul>
           </div>
           <div class="col-md-6">
-            
+            <form action="/review" method="post">
+              <input type="text" class="form-control" name="name" placeholder="Name" required>
+              <select name="stars">
+                <option value="1">&bigstar;</option>
+                <option value="2">&bigstar;&bigstar;</option>
+                <option value="3">&bigstar;&bigstar;&bigstar;</option>
+                <option value="4">&bigstar;&bigstar;&bigstar;&bigstar;</option>
+                <option value="5">&bigstar;&bigstar;&bigstar;&bigstar;&bigstar;</option>
+              </select>
+              <textarea name="review" placeholder="Review"></textarea>
+              <input type="hidden" name="yelpid" value="{{listing.id}}">
+              <button class="btn btn-default btn-block" type="submit">post review</button>
+            </form>
           </div>
         </div>
       </div>

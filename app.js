@@ -23,6 +23,7 @@ var local_database_name = 'foodrun';
 var local_database_uri  = 'mongodb://localhost/' + local_database_name
 var database_uri = process.env.MONGOLAB_URI || local_database_uri
 mongoose.connect(database_uri);
+var models = require('./models');
 
 //Configures the Template engine
 app.engine('handlebars', handlebars());
@@ -52,10 +53,41 @@ app.get('/listing/:id', function(req, res) {
   yelp.business(req.param('id'), function(error, data) {
     console.log(error);
     console.log(data);
-    res.render('listing', { listing: data });
+
+    models.Review
+          .find({'yelpId': req.param('id')})
+          .sort({'date': -1})
+          .exec(renderReviews);
+
+    function renderReviews(err, results) {
+      console.log(results);
+      res.render('listing', { listing: data, reviews: results });
+    }    
   });
 });
 app.get('/listing/', index.view);
+
+app.post('/review', function(req, res) {
+  if(req.body.yelpid === undefined) {
+    res.redirect('/');
+    return;
+  }
+  var newReview = new models.Review({
+    "fbId": req.body.name, // name for now, fbid in the future
+    "reviewText": req.body.review,
+    "yelpId": req.body.yelpid,
+    "stars": req.body.stars,
+    "date": new Date().toString()
+  });
+
+  newReview.save(afterSaving)
+
+  function afterSaving(err) {
+    if(err) {console.log(err); res.send(500);}
+    res.redirect('/listing/'+req.body.yelpid);
+  }
+
+});
 
 //set environment ports and start application
 app.set('port', process.env.PORT || 3000);

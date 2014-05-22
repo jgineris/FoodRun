@@ -5,10 +5,11 @@ var ReviewsSchema = new Mongoose.Schema({
   "fbId": String,
   "reviewText": String,
   "yelpId": String,
-  "stars": Number
+  "stars": Number,
+  "date": Date
 });
 
-exports.Project = Mongoose.model('Review', ReviewsSchema);
+exports.Review = Mongoose.model('Review', ReviewsSchema);
 
 var UsersSchema = new Mongoose.Schema({
   "fbId": String,
@@ -21,4 +22,4 @@ var UsersSchema = new Mongoose.Schema({
   "preferredTravel": Number
 });
 
-exports.Project = Mongoose.model('User', UsersSchema);
+exports.User = Mongoose.model('User', UsersSchema);

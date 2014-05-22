@@ -24,7 +24,7 @@ mongoose.connect(database_uri);
 // Do the initialization here
 
 // Step 1: load the JSON data
-var projects_json = require('./projects.json');
+// var projects_json = require('./projects.json');
 
 // Step 2: Remove all existing documents
 models.Review
