@@ -83,6 +83,15 @@ app.get('/listing/:id', function(req, res) {
 
     function renderReviews(err, results) {
       console.log(results);
+
+      var average = 0;
+      for (var j = results.length - 1; j >= 0; j--) {
+        average += results[j].stars;
+      };
+      if(results.length !== 0) {
+        data.foodrunStars = average/results.length;
+      }
+
       res.render('listing', { listing: data, reviews: results });
     }    
   });
