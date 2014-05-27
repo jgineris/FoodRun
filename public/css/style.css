@@ -1,0 +1,19 @@
+body {
+	margin-top: 50px;
+	background-color: #0f0f0f;
+}
+
+.foodRunLoginHeading, .foodRunSignUpHeading{
+    color: #FFF;
+    text-align: center;
+}
+
+.formLogin, .signUpOnLogin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+h4{
+	text-align: center;
+}

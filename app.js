@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 var dotenv = require('dotenv');
 dotenv.load();
 
+//Yelp
 var yelp = require("yelp").createClient({
   consumer_key: process.env.CONSUMER_KEY, 
   consumer_secret: process.env.CONSUMER_SECRET,
@@ -17,6 +18,7 @@ var yelp = require("yelp").createClient({
 
 //route files to load
 var index = require('./routes/index');
+var signup = require('./routes/signup');
 
 //database setup - uncomment to set up your database
 var local_database_name = 'foodrun';
@@ -65,7 +67,12 @@ app.get('/listing/:id', function(req, res) {
     }    
   });
 });
+
 app.get('/listing/', index.view);
+
+app.get('/signup', signup.view);
+app.get('/auth/facebook', index.fbauthlogin);
+
 
 app.post('/review', function(req, res) {
   if(req.body.yelpid === undefined) {
