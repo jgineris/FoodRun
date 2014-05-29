@@ -19,6 +19,8 @@ var yelp = require("yelp").createClient({
 //route files to load
 var index = require('./routes/index');
 var signup = require('./routes/signup');
+var signup2 = require('./routes/signup2');
+var home = require('./routes/home');
 
 //database setup - uncomment to set up your database
 var local_database_name = 'foodrun';
@@ -36,6 +38,7 @@ app.use(express.bodyParser());
 
 //routes
 app.get('/', index.view);
+
 app.get('/search', function(req, res) {
   var params;
   if(req.param("location").indexOf("current location") !== -1) {
@@ -71,8 +74,9 @@ app.get('/listing/:id', function(req, res) {
 app.get('/listing/', index.view);
 
 app.get('/signup', signup.view);
-app.get('/auth/facebook', index.fbauthlogin);
-
+app.get('/auth/facebook', signup2.fbauthlogin);
+app.get('/signup2', signup2.fbuser);
+app.get('/home', home.view)
 
 app.post('/review', function(req, res) {
   if(req.body.yelpid === undefined) {
@@ -92,6 +96,33 @@ app.post('/review', function(req, res) {
   function afterSaving(err) {
     if(err) {console.log(err); res.send(500);}
     res.redirect('/listing/'+req.body.yelpid);
+  }
+
+});
+
+app.post('/createUser', function(req, res) {
+
+  if(req.body.fbid === undefined) {
+    res.redirect('/');
+    return;
+  }
+  
+  var newUser = new models.User({
+    "fbId": req.body.fbid, 
+    "fName": req.body.fname,
+    "lName": req.body.lname,
+    "year": req.body.year,
+    "typeOfStudent": req.body.typeOfStudent,
+    "yearMoved": 1900,
+    "college": req.body.college,
+    "preferredTravel": ""
+  });
+
+  newUser.save(afterSaving)
+
+  function afterSaving(err) {
+    if(err) {console.log(err); res.send(500);}
+    res.redirect('/home');
   }
 
 });

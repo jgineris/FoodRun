@@ -1,0 +1,71 @@
+<!doctype html>
+
+<html>
+<head>
+	<title>Food Run</title>	
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+      <![endif]-->        
+      <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+      <link rel="stylesheet" type="text/css" href="css/style.css">
+    </head>
+
+    <body>
+      <div class="container">
+      	
+        <form class="formBox" action="/createUser" method="post">
+          <h1 class="foodRunLoginHeading">Food Run Signup</h1> <br>
+          <h4> Hi {{name}}, please finish filling out the signup form </h4>
+
+
+
+          <!--  - Login with Facebook profiles which will create a Food Run profile with additional attributes that include year (freshman‐super senior), type of student (undergraduate or graduate), college (Muir, etc.), and how long they’ve been in San Diego.  -->
+
+          <label>Year at UCSD</label>
+          <select name="year" class="form-control" id="select" >
+            <option value="Freshman">Freshman</option>
+            <option value="Softmore">Softmore</option>
+            <option value="Junior">Junior</option>
+            <option value="Senior">Senior</option>
+            <option value="Super senior">Super senior</option>
+          </select>           
+
+          <label>Type of Student</label>
+          <select name="typeOfStudent" class="form-control" id="select">
+            <option value="Undergraduate">Undergraduate</option>
+            <option value="Graduate">Graduate</option>
+          </select>        
+
+          <label>College</label>
+          <select name="college" class="form-control" id="select">
+            <option value="Marshall">Marshall</option>
+            <option value="Muir">Muir</option>
+            <option value="Revelle">Revelle</option>
+            <option value="Roosevelt">Roosevelt</option>
+            <option value="Sixth">Sixth</option>
+            <option value="Warren">Warren</option>
+          </select>     
+
+          <!-- TODO: Years in San Diego -->
+
+          <!-- TODO: Preferred method of travel -->
+          <input type="hidden" name="fname" value="{{first_name}}">
+          <input type="hidden" name="lname" value="{{last_name}}">
+          <input type="hidden" name="fbid" value="{{id}}">
+
+          <button class="btn btn-default btn-block" type="submit">Sign Up</button>
+        </form>
+
+
+      </div>
+      <script src="https://code.jquery.com/jquery.js"></script>
+      <script src="js/bootstrap.js"></script>
+    </body>
+    </html>

@@ -15,10 +15,10 @@ var UsersSchema = new Mongoose.Schema({
   "fbId": String,
   "fName": String,
   "lName": String,
-  "year": Number,
-  "typeOfStudent": Number,
+  "year": String,
+  "typeOfStudent": String,
   "yearMoved": Number,
-  "college": Number,
+  "college": String,
   "preferredTravel": Number
 });
 
