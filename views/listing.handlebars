@@ -52,6 +52,7 @@
           <div class="col-md-12">
             <h2>{{listing.name}}</h2>
             <p>Yelp Rating: <img src="{{listing.rating_img_url}}"></p>
+            <p>Food Run Rating: {{#if listing.foodrunStars}}{{listing.foodrunStars}}{{else}}no ratings yet{{/if}}</p>
           </div>
           <div class="col-md-6">
             <p>{{listing.location.cross_streets}}</p>
