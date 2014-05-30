@@ -21,6 +21,7 @@ var index = require('./routes/index');
 var signup = require('./routes/signup');
 var signup2 = require('./routes/signup2');
 var home = require('./routes/home');
+var loginerror = require('./routes/loginerror');
 
 //database setup - uncomment to set up your database
 var local_database_name = 'foodrun';
@@ -107,7 +108,51 @@ app.get('/listing/', index.view);
 app.get('/signup', signup.view);
 app.get('/auth/facebook', signup2.fbauthlogin);
 app.get('/signup2', signup2.fbuser);
-app.get('/home', home.view)
+app.get('/login', home.authlogin);
+
+var graph = require('fbgraph'); 
+app.get('/home', function(req, res){    
+    graph.get("/me", function(err, res1) {
+       console.log(res1);
+       models.User
+        .find({'fbId': res1.id })
+        .exec(findUser);
+
+    function findUser(err, results) {
+      console.log(results);
+      var foundUser = false;
+      //No user accounts yet
+      if(results.length == 0)
+      {
+        console.log("length is 0");
+        res.redirect('/loginerror');
+      }
+       
+      for(var a = 0; a <= (results.length - 1); a++)
+      {
+        //User account exists
+        if(res1.id == results[a].fbId)
+        {
+          console.log("Found user account!!");
+          foundUser = true;
+        }
+      };
+      if(foundUser)
+      {
+        res.render('home', res1);
+      }
+      else
+      {
+        //User account doesn't exist
+        console.log("going to loginerror");
+        res.render('loginerror');
+      }      
+
+    } //end function
+    });
+    
+});
+app.get('/loginerror', loginerror.view);
 
 app.post('/review', function(req, res) {
   if(req.body.yelpid === undefined) {
@@ -153,7 +198,7 @@ app.post('/createUser', function(req, res) {
 
   function afterSaving(err) {
     if(err) {console.log(err); res.send(500);}
-    res.redirect('/home');
+    res.redirect('/');
   }
 
 });
