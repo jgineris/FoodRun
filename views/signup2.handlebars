@@ -53,9 +53,25 @@
             <option value="Warren">Warren</option>
           </select>     
 
-          <!-- TODO: Years in San Diego -->
+          <label>Years you've lived in San Diego</label>
+          <select name="college" class="form-control" id="select">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5+</option>
+          </select>  
+
 
           <!-- TODO: Preferred method of travel -->
+          <label>I prefer to travel by... (check all that apply)</label>  <br>
+          <input name="bike" type="checkbox" value="1"> Bike <br>
+          <input name="bus" type="checkbox" value="1"> Bus  <br>
+          <input name="car" type="checkbox" value="1"> Car  <br>
+          <input name="walk" type="checkbox" value="1"> Walk  <br>   
+
+
+
           <input type="hidden" name="fname" value="{{first_name}}">
           <input type="hidden" name="lname" value="{{last_name}}">
           <input type="hidden" name="fbid" value="{{id}}">

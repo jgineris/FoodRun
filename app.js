@@ -22,6 +22,7 @@ var signup = require('./routes/signup');
 var signup2 = require('./routes/signup2');
 var home = require('./routes/home');
 var loginerror = require('./routes/loginerror');
+var accounterror = require('./routes/accounterror');
 
 //database setup - uncomment to set up your database
 var local_database_name = 'foodrun';
@@ -104,13 +105,15 @@ app.get('/listing/:id', function(req, res) {
 });
 
 app.get('/listing/', index.view);
-
 app.get('/signup', signup.view);
 app.get('/auth/facebook', signup2.fbauthlogin);
 app.get('/signup2', signup2.fbuser);
 app.get('/login', home.authlogin);
+app.get('/accounterror', accounterror.view);
+app.get('/loginerror', loginerror.view);
 
 var graph = require('fbgraph'); 
+
 app.get('/home', function(req, res){    
     graph.get("/me", function(err, res1) {
        console.log(res1);
@@ -124,7 +127,6 @@ app.get('/home', function(req, res){
       //No user accounts yet
       if(results.length == 0)
       {
-        console.log("length is 0");
         res.redirect('/loginerror');
       }
        
@@ -133,7 +135,7 @@ app.get('/home', function(req, res){
         //User account exists
         if(res1.id == results[a].fbId)
         {
-          console.log("Found user account!!");
+          // console.log("Found user account!!");
           foundUser = true;
         }
       };
@@ -144,7 +146,6 @@ app.get('/home', function(req, res){
       else
       {
         //User account doesn't exist
-        console.log("going to loginerror");
         res.render('loginerror');
       }      
 
@@ -152,7 +153,7 @@ app.get('/home', function(req, res){
     });
     
 });
-app.get('/loginerror', loginerror.view);
+
 
 app.post('/review', function(req, res) {
   if(req.body.yelpid === undefined) {
@@ -177,29 +178,60 @@ app.post('/review', function(req, res) {
 });
 
 app.post('/createUser', function(req, res) {
+// console.log("bike " + req.body.bike);
+// console.log("car " + req.body.car);
 
   if(req.body.fbid === undefined) {
     res.redirect('/');
     return;
   }
+
+  var accountExists = false;
+  models.User
+        .find({'fbId': req.body.fbid })
+        .exec(userExists);
   
-  var newUser = new models.User({
-    "fbId": req.body.fbid, 
-    "fName": req.body.fname,
-    "lName": req.body.lname,
-    "year": req.body.year,
-    "typeOfStudent": req.body.typeOfStudent,
-    "yearMoved": 1900,
-    "college": req.body.college,
-    "preferredTravel": ""
-  });
 
-  newUser.save(afterSaving)
+        function userExists(err, results) {
+          console.log(results);
 
-  function afterSaving(err) {
-    if(err) {console.log(err); res.send(500);}
-    res.redirect('/');
-  }
+          for(var a = 0; a <= (results.length - 1); a++)
+          {
+        //User already has account
+        if(req.body.fbid == results[a].fbId)
+        {
+          // console.log("User already has account!!");
+          //go to error page
+          accountExists = true;
+        }
+      };
+
+      var newUser = new models.User({
+        "fbId": req.body.fbid, 
+        "fName": req.body.fname,
+        "lName": req.body.lname,
+        "year": req.body.year,
+        "typeOfStudent": req.body.typeOfStudent,
+        "yearMoved": 1900,
+        "college": req.body.college,
+        "preferredTravel": ""
+      });
+
+      if(accountExists)
+      {
+        res.render('accounterror');
+        return;
+      }    
+      else
+      {    
+        newUser.save(afterSaving)
+        function afterSaving(err) {
+          if(err) {console.log(err); res.send(500);}
+          res.redirect('/home');
+        }
+      }
+
+  } //end function
 
 });
 
