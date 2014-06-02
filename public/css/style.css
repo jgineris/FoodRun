@@ -1,19 +1,24 @@
-body {
-	margin-top: 50px;
-	background-color: #0f0f0f;
+body { 
+	padding-top: 70px; 
 }
 
-.foodRunLoginHeading, .foodRunSignUpHeading{
-    color: #FFF;
-    text-align: center;
+.media-body h5 {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
-.formBox, .signUpOnLogin {
-    max-width: 330px;
-    padding: 15px;
-    margin: 0 auto;
+@font-face {
+  font-family: 'Remachine';
+    src:  url('../fonts/Remachine-Script-Personal-Use-Only.ttf.woff') format('woff'),
+    url('../fonts/Remachine-Script-Personal-Use-Only.ttf.svg#Remachine-Script-Personal-Use-Only') format('svg'),
+    url('../fonts/Remachine-Script-Personal-Use-Only.ttf.eot'),
+    url('../fonts/Remachine-Script-Personal-Use-Only.eot?#iefix') format('embedded-opentype'); 
+    font-weight: normal;
+    font-style: normal;
 }
 
-h4{
-	text-align: center;
+.navbar-brand {
+	font-family: 'Remachine';
+	font-size: 40px;
 }

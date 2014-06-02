@@ -12,7 +12,7 @@
     "mongoose": "*",
     "passport": "*",
     "passport-facebook": "*",
-    "passport-twitter": "*",
+    "fbgraph": "*",
     "yelp": "*",
     "dotenv": "*"
   },

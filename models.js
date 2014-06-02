@@ -6,7 +6,8 @@ var ReviewsSchema = new Mongoose.Schema({
   "reviewText": String,
   "yelpId": String,
   "stars": Number,
-  "date": Date
+  "date": Date,
+  "travel": Number
 });
 
 exports.Review = Mongoose.model('Review', ReviewsSchema);
@@ -15,10 +16,10 @@ var UsersSchema = new Mongoose.Schema({
   "fbId": String,
   "fName": String,
   "lName": String,
-  "year": String,
-  "typeOfStudent": String,
+  "year": Number,
+  "typeOfStudent": Number,
   "yearMoved": Number,
-  "college": String,
+  "college": Number,
   "preferredTravel": Number
 });
 

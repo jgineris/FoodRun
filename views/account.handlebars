@@ -84,69 +84,62 @@
   
   <div class="container">
     <div class="row">
-      <div class="col-md-5">
-        <div class="media">
-          <a class="pull-left" href="#">
-            <img class="media-object img-circle" src="{{listing.image_url}}" alt="{{listing.name}}">
-          </a>
-          <div class="media-body">
-            <h2>{{listing.name}}</h2>
-            <p>Yelp: <img src="{{listing.rating_img_url}}"></p>
-            <p>Food Run: {{#if listing.foodrunStars}}{{listing.foodrunStars}}{{else}}<span class="glyphicon-question-sign glyphicon"></span>{{/if}}</p></p>
-          </div>
-        </div>
-        <p>{{listing.location.cross_streets}}</p>
-        <address><a href="https://www.google.com/maps/place/{{listing.name}} {{#each listing.location.display_address}}{{this}} {{/each}}" target="_blank">{{#each listing.location.display_address}}{{this}}<br>{{/each}}</a></address>
-        {{#if user}}
-        <h4>Leave a Review</h4>
-        <form role="form" action="/review" method="post">
+      <div class="col-md-12">
+        <h2>Account settings</h2>
+        <form role="form" method="post" action="/account">
           <div class="form-group">
-            <label for="stars">Stars</label>
-            <select name="stars" id="stars" class="form-control">
-              <option value="1">&bigstar;</option>
-              <option value="2">&bigstar;&bigstar;</option>
-              <option value="3">&bigstar;&bigstar;&bigstar;</option>
-              <option value="4">&bigstar;&bigstar;&bigstar;&bigstar;</option>
-              <option value="5">&bigstar;&bigstar;&bigstar;&bigstar;&bigstar;</option>
+            <label for="fName">First Name</label>
+            <input type="text" class="form-control" id="fName" name="fName" placeholder="First Name" value="{{account.fName}}">
+          </div>
+          <div class="form-group">
+            <label for="lName">Last Name</label>
+            <input type="text" class="form-control" id="lName" name="lName" placeholder="Last Name" value="{{account.lName}}">
+          </div>
+          <div class="form-group">
+            <label for="year">Year</label>
+            <select name="year" id="year" class="form-control">
+              <option value="1" {{#ifCond 1 account.year}}selected="selected"{{/ifCond}}>Freshman</option>
+              <option value="2" {{#ifCond 2 account.year}}selected="selected"{{/ifCond}}>Sophomore</option>
+              <option value="3" {{#ifCond 3 account.year}}selected="selected"{{/ifCond}}>Junior</option>
+              <option value="4" {{#ifCond 4 account.year}}selected="selected"{{/ifCond}}>Senior</option>
+              <option value="5" {{#ifCond 5 account.year}}selected="selected"{{/ifCond}}>Super Senior</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="travel">Best way to get there</label>
+            <label for="type">Type of Student</label>
+            <select name="type" id="type" class="form-control">
+              <option value="1" {{#ifCond 1 account.typeOfStudent}}selected="selected"{{/ifCond}}>Undergraduate</option>
+              <option value="2" {{#ifCond 2 account.typeOfStudent}}selected="selected"{{/ifCond}}>Graduate</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="since">Living in San Diego since</label>
+            <input type="number" class="form-control" id="since" name="since" placeholder="Year" value="{{account.yearMoved}}">
+          </div>
+          <div class="form-group">
+            <label for="college">College</label>
+            <select name="college" id="college" class="form-control">
+              <option value="1" {{#ifCond 1 account.college}}selected="selected"{{/ifCond}}>Revelle</option>
+              <option value="2" {{#ifCond 2 account.college}}selected="selected"{{/ifCond}}>Muir</option>
+              <option value="3" {{#ifCond 3 account.college}}selected="selected"{{/ifCond}}>Marshall</option>
+              <option value="4" {{#ifCond 4 account.college}}selected="selected"{{/ifCond}}>Warren</option>
+              <option value="5" {{#ifCond 5 account.college}}selected="selected"{{/ifCond}}>Roosevelt</option>
+              <option value="6" {{#ifCond 6 account.college}}selected="selected"{{/ifCond}}>Sixth</option>
+              <option value="7" {{#ifCond 7 account.college}}selected="selected"{{/ifCond}}>N/A</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="travel">Preferred Method of Travel</label>
             <select name="travel" id="travel" class="form-control">
-              <option value="1">Car</option>
-              <option value="2">Bike</option>
-              <option value="3">Public Transit</option>
-              <option value="4">Walk</option>
+              <option value="1" {{#ifCond 1 account.preferredTravel}}selected="selected"{{/ifCond}}>Car</option>
+              <option value="2" {{#ifCond 2 account.preferredTravel}}selected="selected"{{/ifCond}}>Bike</option>
+              <option value="3" {{#ifCond 3 account.preferredTravel}}selected="selected"{{/ifCond}}>Public Transit</option>
+              <option value="4" {{#ifCond 4 account.preferredTravel}}selected="selected"{{/ifCond}}>Walk</option>
             </select>
           </div>
-          <div class="form-group">
-            <label for="review">Review</label>
-            <textarea name="review" placeholder="Review" class="form-control"></textarea>
-          </div>
-          <input type="hidden" name="yelpid" value="{{listing.id}}">
+          <input type="hidden" name="referer" value="{{referer}}">
           <button type="submit" class="btn btn-default">Submit</button>
         </form>
-        {{else}}
-          <h4><a href="/auth/facebook">Login with Facebook</a> to leave a review</h4>
-        {{/if}}
-      </div>
-      <div class="col-md-7">
-        <h3>Reviews</h3>
-        <ul>
-          {{#if reviews}}
-          {{#each reviews}}
-            <li>
-              <p>Name: {{fbId}}</p>
-              <p>Date: {{date}}</p>
-              <p>Stars: {{stars}}</p>
-              <p>Best way to get there: {{travel}}</p>
-              <p>Review: {{reviewText}}</p>
-            </li>
-          {{/each}}
-          {{else}}
-            <li>No Reviews Yet</li>
-          {{/if}}
-        </ul>
       </div>
     </div>
   </div>
