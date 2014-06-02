@@ -164,7 +164,7 @@ function(req, res) {
     console.log(results);
 
     if(results.length === 0) {
-      res.render('account', { user: req.user, account: {'fName':req.user.name.givenName,'lName':req.user.name.familyName}, referer: req.headers['referer']});
+      res.render('account', { user: req.user, account: {'fName':req.user.name.givenName,'lName':req.user.name.familyName}, referer: req.headers['referer'], newUser: true});
     } else {
       res.redirect(req.headers['referer']);
     }
