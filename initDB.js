@@ -37,6 +37,12 @@ models.User
   .remove()
   .exec(onceClear); // callback to continue at
 
+models.Checkin
+  .find()
+  .remove()
+  .exec(onceClear); // callback to continue at
+
+
 // Step 3: load the data from the JSON file
 function onceClear(err) {
   if(err) 

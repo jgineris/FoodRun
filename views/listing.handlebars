@@ -126,6 +126,33 @@
           <input type="hidden" name="yelpid" value="{{listing.id}}">
           <button type="submit" class="btn btn-default">Submit</button>
         </form>
+
+        <h4> Check into {{listing.name}} <h4>
+        <form role="form" action="/checkin" method="post">
+          <div class="form-group">
+            <textarea name="reason" placeholder="Reason why you are here: fun, food, study session etc." class="form-control"></textarea>
+
+            <input type="hidden" name="yelpid" value="{{listing.id}}">
+            <button type="submit" class="btn btn-default">Checkin</button>
+
+          </div>
+        </form>
+        <h3>Checkins</h3>
+        {{#if checkins}}
+        {{#each checkins}}
+          <div id="showcheckins">
+            <p>Name: {{displayName}} </p>
+            <p>Time: {{date}} </p>
+            <p>Reason: {{reason}} </p>            
+          </div>
+            <button id="toggleButton" type="submit" class="btn btn-default">Show/Hide Checkins</button>
+        {{/each}}
+        
+        {{else}}
+          <li>No Checkins Yet</li>
+        {{/if}}
+
+
         {{else}}
           <h4><a href="/auth/facebook">Login with Facebook</a> to leave a review</h4>
         {{/if}}
@@ -150,5 +177,19 @@
       </div>
     </div>
   </div>
+
+
+<script type="text/javascript">
+
+$("#toggleButton").click(function() { 
+    // assumes element with id='button'
+    $("#showcheckins").toggle();
+});
+
+</script>
+
+
+
+
 </body>
 </html>

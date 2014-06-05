@@ -114,9 +114,31 @@ app.get('/listing/:id', function(req, res) {
         data.foodrunStars = average/results.length;
       }
 
+    models.Checkin
+      .find({'yelpId': req.param('id')})
+      .sort({'date': -1})
+      .exec(renderCheckins);
 
+      function renderCheckins(err, results2) {
+        console.log(results2);
+        var now = Date.now();
+        var diff = 0;
 
-      res.render('listing', { listing: data, reviews: results, user: req.user });
+     
+        for(var a = 0; a <= results2.length - 1; a++)
+        {
+          diff = now - results2[a].date.getTime();
+          if(diff >= 10000) //10 sec 1800000 30 min
+          {
+            console.log("need to be deleted " + results2[a].id);
+            models.Checkin.find({'_id': results2[a].id}).remove().exec();
+            console.log(results2);
+          }
+
+        };
+
+        res.render('listing', { listing: data, reviews: results, user: req.user, checkins: results2 });
+      }
     }    
   });
 });
@@ -195,7 +217,6 @@ app.get('/account', function(req,res) {
 });
 
 app.post('/account', function(req,res) {
-
   console.log(req);
 
   var newUserInfo = {
@@ -243,6 +264,33 @@ function ensureAuthenticated(req, res, next) {
   res.redirect('/');
 }
 
+
+app.post('/checkin', function(req,res) {
+
+  var newCheckinInfo = {
+    "fbId": req.user.id,
+    "displayName": req.user.displayName,
+    "yelpId": req.body.yelpid,
+    "reason": req.body.reason,
+    "date": new Date().toString()
+  }
+
+  models.Checkin.findOneAndUpdate({
+      'fbId': req.user.id
+    }, newCheckinInfo, addcheckin)
+
+  function addcheckin(err, results) {
+    if(err) {console.log(err); res.send(500);}
+    console.log(results);
+
+    if(results === null || results.length === 0) {
+      var newCheckin = new models.Checkin(newCheckinInfo);
+      newCheckin.save();      
+    }
+    res.redirect('/listing/' + req.body.yelpid);
+  } 
+
+});
 //set environment ports and start application
 app.set('port', process.env.PORT || 3000);
 http.createServer(app).listen(app.get('port'), function(){

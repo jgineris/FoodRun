@@ -24,3 +24,13 @@ var UsersSchema = new Mongoose.Schema({
 });
 
 exports.User = Mongoose.model('User', UsersSchema);
+
+var CheckinSchema =  new Mongoose.Schema({
+  "fbId": String,
+  "displayName": String,
+  "yelpId": String,
+  "reason": String,
+  "date": Date
+});
+
+exports.Checkin = Mongoose.model('Checkin', CheckinSchema);

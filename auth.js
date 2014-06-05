@@ -36,11 +36,15 @@ passport.use(new FacebookStrategy({
   },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
-      graph.setAccessToken(accessToken);
+      graph.setAccessToken(accessToken).get("/me/friendlists", function(err, res) {
+                console.log(res);
+                console.log(res.data);
+            });
       return done(null, profile);
     });
   }
 ));
+
 
 exports.passport = passport;
 exports.graph = graph;
