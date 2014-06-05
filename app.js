@@ -128,7 +128,7 @@ app.get('/listing/:id', function(req, res) {
         for(var a = 0; a <= results2.length - 1; a++)
         {
           diff = now - results2[a].date.getTime();
-          if(diff >= 10000) //10 sec 1800000 30 min
+          if(diff >= 1800000) //30 min
           {
             console.log("need to be deleted " + results2[a].id);
             models.Checkin.find({'_id': results2[a].id}).remove().exec();
