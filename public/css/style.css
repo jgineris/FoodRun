@@ -1,5 +1,5 @@
 body { 
-	padding-top: 70px; 
+	padding-top: 50px; 
 }
 
 .media-body h5 {
@@ -21,4 +21,12 @@ body {
 .navbar-brand {
 	font-family: 'Remachine';
 	font-size: 40px;
+}
+
+#results {
+    padding: 0;
+}
+
+.notrident {
+    opacity: .1;
 }

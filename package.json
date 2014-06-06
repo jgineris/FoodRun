@@ -14,7 +14,8 @@
     "passport-facebook": "*",
     "fbgraph": "*",
     "yelp": "*",
-    "dotenv": "*"
+    "dotenv": "*",
+    "moment": "*"
   },
   "engines": {
     "node": "0.10.x"

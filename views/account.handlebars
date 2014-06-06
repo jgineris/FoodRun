@@ -21,7 +21,10 @@
   
   <script>
     "use strict";
-    getLocation();
+    $(document).ready(function() {
+      getLocation();
+    });
+
     function getLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);

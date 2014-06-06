@@ -3,6 +3,7 @@ var Mongoose = require('mongoose');
 
 var ReviewsSchema = new Mongoose.Schema({
   "fbId": String,
+  "displayName": String,
   "reviewText": String,
   "yelpId": String,
   "stars": Number,

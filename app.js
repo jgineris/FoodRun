@@ -7,6 +7,7 @@ var app = express();
 var mongoose = require('mongoose');
 var auth = require('./auth');
 var dotenv = require('dotenv');
+var moment = require('moment');
 dotenv.load();
 
 var yelp = require("yelp").createClient({
@@ -73,17 +74,30 @@ app.get('/', function(req, res) {
           .exec(averageRating);
 
       function averageRating(err, results) {
-        var average = 0;
+        if(results.length === 0) { 
+          return;
+        } 
+
+        var avg = 0;
+        
         for (var j = results.length - 1; j >= 0; j--) {
-          average += results[j].stars;
-        };
-        if(results.length !== 0) {
-          for (var k = data.businesses.length - 1; k >= 0; k--) {
-            if(data.businesses[k].id === results[0].yelpId) {
-              data.businesses[k].foodrunStars = average/results.length;
-              break;
-            }
-          };
+          avg += results[j].stars;
+        }
+        
+        avgTridents = "";
+        avg = avg/results.length;
+        
+        for(var l = .5; l < 5; l++) {
+          avgTridents += '<img src="/img/trident.png" alt="trident"' + 
+                         (l>=avg?'class="notrident"':'')
+                          + '/>';
+        }
+        
+        for (var k = data.businesses.length - 1; k >= 0; k--) {
+          if(data.businesses[k].id === results[0].yelpId) {
+            data.businesses[k].avgTridents = avgTridents;
+            break;
+          }
         }
       }
     };
@@ -109,9 +123,38 @@ app.get('/listing/:id', function(req, res) {
       var average = 0;
       for (var j = results.length - 1; j >= 0; j--) {
         average += results[j].stars;
+        results[j].prettyDate = moment(results[j].date).fromNow();
+        results[j].tridents = "";
+        for(var i = 0; i < 5; i++) {
+          results[j].tridents += '<img src="/img/trident.png" alt="trident"' + 
+                                  (i>=results[j].stars?'class="notrident"':'')
+                                   + '/>';
+        }
+        switch(results[j].travel) {
+          case 1:
+            results[j].travelImg = '<img class="travel" src="/img/car.png" alt="car" data-toggle="tooltip" data-placement="top" title="Car"/>';
+            break;
+          case 2:
+            results[j].travelImg = '<img class="travel" src="/img/bike.png" alt="bike" data-toggle="tooltip" data-placement="top" title="Bike"/>';
+            break;
+          case 3:
+            results[j].travelImg = '<img class="travel" src="/img/bus.png" alt="public transit" data-toggle="tooltip" data-placement="top" title="Bus"/>';
+            break;
+          case 4:
+            results[j].travelImg = '<img class="travel" src="/img/walk.png" alt="walk" data-toggle="tooltip" data-placement="top" title="Walk"/>';
+            break;
+        }
       };
-      if(results.length !== 0) {
-        data.foodrunStars = average/results.length;
+
+      data.avgTridents = "";
+      var avg = 0;
+      if(results.length !== 0) {  
+        avg = average/results.length;
+      }
+      for(var i = .5; i < 5; i++) {
+        data.avgTridents += '<img src="/img/trident.png" alt="trident"' + 
+                                (i>=avg?'class="notrident"':'')
+                                 + '/>';
       }
 
     models.Checkin
@@ -124,7 +167,6 @@ app.get('/listing/:id', function(req, res) {
         var now = Date.now();
         var diff = 0;
 
-     
         for(var a = 0; a <= results2.length - 1; a++)
         {
           diff = now - results2[a].date.getTime();
@@ -133,6 +175,9 @@ app.get('/listing/:id', function(req, res) {
             console.log("need to be deleted " + results2[a].id);
             models.Checkin.find({'_id': results2[a].id}).remove().exec();
             console.log(results2);
+            results2.splice(a,1);
+          } else {
+            results2[a].relative = moment(results2[a].date).fromNow();
           }
 
         };
@@ -151,6 +196,7 @@ app.post('/review', function(req, res) {
   }
   var newReview = new models.Review({
     "fbId": req.user.id,
+    "displayName": req.user.displayName,
     "reviewText": req.body.review,
     "yelpId": req.body.yelpid,
     "stars": req.body.stars,

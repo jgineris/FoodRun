@@ -21,7 +21,11 @@
   
   <script>
     "use strict";
-    getLocation();
+    $(document).ready(function() {
+      getLocation();
+      $('.travel').tooltip();
+    });
+    
     function getLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
@@ -92,22 +96,24 @@
           <div class="media-body">
             <h2>{{listing.name}}</h2>
             <p>Yelp: <img src="{{listing.rating_img_url}}"></p>
-            <p>Food Run: {{#if listing.foodrunStars}}{{listing.foodrunStars}}{{else}}<span class="glyphicon-question-sign glyphicon"></span>{{/if}}</p></p>
+            <p>Food Run: {{{listing.avgTridents}}}</p>
           </div>
         </div>
+        <hr>
         <p>{{listing.location.cross_streets}}</p>
         <address><a href="https://www.google.com/maps/place/{{listing.name}} {{#each listing.location.display_address}}{{this}} {{/each}}" target="_blank">{{#each listing.location.display_address}}{{this}}<br>{{/each}}</a></address>
+        <hr>
         {{#if user}}
         <h4>Leave a Review</h4>
         <form role="form" action="/review" method="post">
           <div class="form-group">
-            <label for="stars">Stars</label>
+            <label for="stars">Tridents</label>
             <select name="stars" id="stars" class="form-control">
-              <option value="1">&bigstar;</option>
-              <option value="2">&bigstar;&bigstar;</option>
-              <option value="3">&bigstar;&bigstar;&bigstar;</option>
-              <option value="4">&bigstar;&bigstar;&bigstar;&bigstar;</option>
-              <option value="5">&bigstar;&bigstar;&bigstar;&bigstar;&bigstar;</option>
+              <option value="1">&Psi;</option>
+              <option value="2">&Psi;&Psi;</option>
+              <option value="3">&Psi;&Psi;&Psi;</option>
+              <option value="4">&Psi;&Psi;&Psi;&Psi;</option>
+              <option value="5">&Psi;&Psi;&Psi;&Psi;&Psi;</option>
             </select>
           </div>
           <div class="form-group">
@@ -126,32 +132,33 @@
           <input type="hidden" name="yelpid" value="{{listing.id}}">
           <button type="submit" class="btn btn-default">Submit</button>
         </form>
-
-        <h4> Check into {{listing.name}} <h4>
+        <hr>
+        <h4>Check into {{listing.name}}</h4>
         <form role="form" action="/checkin" method="post">
           <div class="form-group">
-            <textarea name="reason" placeholder="Reason why you are here: fun, food, study session etc." class="form-control"></textarea>
-
+            <label for="reason">Message</label>
+            <textarea id="reason" name="reason" placeholder="Reason why you are here: fun, food, study session etc." class="form-control"></textarea>
             <input type="hidden" name="yelpid" value="{{listing.id}}">
-            <button type="submit" class="btn btn-default">Checkin</button>
-
           </div>
+          <button type="submit" class="btn btn-default">Checkin</button>
         </form>
         <h3>Checkins</h3>
-        {{#if checkins}}
-        {{#each checkins}}
-          <div id="showcheckins">
-            <p>Name: {{displayName}} </p>
-            <p>Time: {{date}} </p>
-            <p>Reason: {{reason}} </p>            
+        <div class="list-group" id="checkins">
+          {{#if checkins}}
+          {{#each checkins}}
+          <div class="list-group-item">
+            <h4 class="list-group-item-heading">{{displayName}} <small>{{relative}}</small></h4>
+            <div class="list-group-item-text">
+              <p>{{reason}}</p>
+            </div>
           </div>
-            <button id="toggleButton" type="submit" class="btn btn-default">Show/Hide Checkins</button>
         {{/each}}
-        
         {{else}}
-          <li>No Checkins Yet</li>
+          <div class="list-group-item">
+            <h4 class="list-group-item-heading">No ones here right now</h4>
+          </div>
         {{/if}}
-
+        </div>
 
         {{else}}
           <h4><a href="/auth/facebook">Login with Facebook</a> to leave a review</h4>
@@ -159,37 +166,25 @@
       </div>
       <div class="col-md-7">
         <h3>Reviews</h3>
-        <ul>
+        <div class="list-group">
           {{#if reviews}}
           {{#each reviews}}
-            <li>
-              <p>Name: {{fbId}}</p>
-              <p>Date: {{date}}</p>
-              <p>Stars: {{stars}}</p>
-              <p>Best way to get there: {{travel}}</p>
-              <p>Review: {{reviewText}}</p>
-            </li>
+            <div class="list-group-item">
+              <div class="list-group-item-text">
+                <p>{{{tridents}}} | {{{travelImg}}} | {{prettyDate}}</p>
+                <p>{{reviewText}}</p>
+                <p class="text-right"><i>-{{displayName}}</i></p>
+              </div>
+            </div>
           {{/each}}
           {{else}}
-            <li>No Reviews Yet</li>
+            <div class="list-group-item">
+              <h4 class="list-group-item-heading">No Reviews Yet</h4>
+            </div>
           {{/if}}
-        </ul>
+        </dic>
       </div>
     </div>
   </div>
-
-
-<script type="text/javascript">
-
-$("#toggleButton").click(function() { 
-    // assumes element with id='button'
-    $("#showcheckins").toggle();
-});
-
-</script>
-
-
-
-
 </body>
 </html>

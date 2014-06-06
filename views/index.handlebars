@@ -38,14 +38,13 @@
       map = new google.maps.Map(document.getElementById("map-canvas"),
           mapOptions);
 
-      $('#results li').each(function(index) {
+      $('.result').each(function(index) {
         var html = $(this).html();
         var li = $(this);
         setTimeout(function() {
           console.log(index);
           geocoder.geocode( { 'address': li.data("address")}, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
-            map.setCenter(results[0].geometry.location);
             var marker = new google.maps.Marker({
                 map: map,
                 position: results[0].geometry.location
@@ -87,7 +86,7 @@
     "use strict";
     $(document).ready(function() {
       getLocation();
-      $('#results').on('mouseenter','li',function() {
+      $('#results').on('mouseenter','.result',function() {
         var infoWindow = $(this).data('infoWindow');
         var marker = $(this).data('marker');
         closeAllInfoWindows();
@@ -179,22 +178,28 @@
       </div>
       <div class="col-sm-5 col-sm-pull-7">
         <h3>Results</h3>
-        <ol id="results">
+        <div class="list-group" id="results">
           {{#each results.businesses}}
-          <li data-address="{{location.address}} {{location.city}}">
+          <a href="/listing/{{id}}" class="list-group-item result" data-address="{{location.address}} {{location.city}}">
             <div class="media">
-              <a class="pull-left" href="/listing/{{id}}">
+              <span class="pull-left">
                 <img class="media-object img-circle" src="{{image_url}}" alt="{{name}}">
-              </a>
+              </span>
               <div class="media-body">
-                <h5><a href="/listing/{{id}}">{{name}}</a></h5>
+                <h5>{{name}}</h5>
                 <p>Yelp: <img src="{{rating_img_url}}"/></p>
-                <p>Food Run: {{#if foodrunStars}}{{foodrunStars}}{{else}}<span class="glyphicon-question-sign glyphicon"></span>{{/if}}</p>
+                <p>Food Run: 
+                  {{#if avgTridents}}
+                    {{{avgTridents}}}
+                  {{else}}
+                    <img src="/img/trident.png" alt="trident" class="notrident"/><img src="/img/trident.png" alt="trident" class="notrident"/><img src="/img/trident.png" alt="trident" class="notrident"/><img src="/img/trident.png" alt="trident" class="notrident"/><img src="/img/trident.png" alt="trident" class="notrident"/>
+                  {{/if}}
+                </p>
               </div>
             </div>
-          </li>
+          </a>
           {{/each}}
-        </ol>
+        </div>
       </div>
     </div>
     {{else}}
