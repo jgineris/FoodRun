@@ -30,3 +30,11 @@ body {
 .notrident {
     opacity: .1;
 }
+
+#listingInfo {
+    margin-top: 20px;
+}
+
+#listingInfo h2 {
+    margin-top: 0;
+}
