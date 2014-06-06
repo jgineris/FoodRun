@@ -292,7 +292,7 @@ app.post('/account', function(req,res) {
     }
 
     if(req.body.referer === null || req.body.referer === "") {
-      res.render('account', { user: req.user, account: results });
+      res.render('account', { user: req.user, account: results, saved: true });
     } else {
       res.redirect(req.body.referer);
     }    

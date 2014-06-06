@@ -38,3 +38,11 @@ body {
 #listingInfo h2 {
     margin-top: 0;
 }
+
+.alert {
+    margin-top: 20px;
+}
+
+#accountSettings {
+    margin-bottom: 20px;
+}

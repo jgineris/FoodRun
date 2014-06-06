@@ -88,9 +88,14 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
+        {{#if newUser}}
         <div class="alert alert-info">Set up your account below!</div>
+        {{/if}}
+        {{#if saved}}
+        <div class="alert alert-success">Saved.</div>
+        {{/if}}
         <h2>Account settings</h2>
-        <form role="form" method="post" action="/account">
+        <form role="form" method="post" action="/account" id="accountSettings">
           <div class="form-group">
             <label for="fName">First Name</label>
             <input type="text" class="form-control" id="fName" name="fName" placeholder="First Name" value="{{account.fName}}">
