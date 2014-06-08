@@ -1,5 +1,5 @@
 body { 
-	padding-top: 50px; 
+	padding-top: 40px; 
 }
 
 .media-body h5 {
@@ -20,15 +20,20 @@ body {
 
 .navbar-brand {
 	font-family: 'Remachine';
-	font-size: 40px;
+	font-size: 35px;
 }
 
 #results {
     padding: 0;
 }
 
+.tridents {
+    display: inline-block;
+    width: 80px;
+}
+
 .notrident {
-    opacity: .1;
+    opacity: .3;
 }
 
 #listingInfo {

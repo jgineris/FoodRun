@@ -4,11 +4,8 @@
   <title>{{listing.name}} - Food Run</title> 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-  
-  <!-- Optional theme -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
   
   <!-- Food Run stylesheet -->
   <link rel="stylesheet" href="/css/style.css">
@@ -96,7 +93,7 @@
           <div class="media-body">
             <h2>{{listing.name}}</h2>
             <p>Yelp: <img src="{{listing.rating_img_url}}"></p>
-            <p>Food Run: {{{listing.avgTridents}}}</p>
+            <p>Food Run: <span class="tridents">{{{listing.avgTridents}}}</span></p>
           </div>
         </div>
         <hr>
@@ -171,7 +168,7 @@
           {{#each reviews}}
             <div class="list-group-item">
               <div class="list-group-item-text">
-                <p>{{{tridents}}} | {{{travelImg}}} | {{prettyDate}}</p>
+                <p><span class="tridents">{{{tridents}}}</span> | {{{travelImg}}} | {{prettyDate}}</p>
                 <p>{{reviewText}}</p>
                 <p class="text-right"><i>-{{displayName}}</i></p>
               </div>
