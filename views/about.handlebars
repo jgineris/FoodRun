@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>Triton Connect</title> 
+  <title>About - Triton Connect</title> 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Bootstrap CSS -->
@@ -9,77 +9,15 @@
   
   <!-- Triton Connect stylesheet -->
   <link rel="stylesheet" href="/css/style.css">
-
-  <!-- results stylesheet -->
-  <link rel="stylesheet" href="/css/results.css">
+  
+  <!-- home stylesheet -->
+  <link rel="stylesheet" href="/css/about.css">
 
   <!-- jQuery -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
   <!-- Latest compiled and minified JavaScript -->
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-  
-  <!-- Google Maps Stuff -->
-  <script type="text/javascript"
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwNF0d-G772tKHizpJ_0EqlWxCkb8uJqI&sensor=true">
-  </script>
-  <script type="text/javascript">
-    var map;
-    var geocoder;
-    var infoWindows = [];
-    function initialize() {
-      geocoder = new google.maps.Geocoder();
-      
-      var mapOptions = {
-        center: new google.maps.LatLng({{results.region.center.latitude}}, {{results.region.center.longitude}}),
-        zoom: 12
-      };
-      
-      map = new google.maps.Map(document.getElementById("map-canvas"),
-          mapOptions);
-
-      $('.result').each(function(index) {
-        var html = $(this).html();
-        var li = $(this);
-        setTimeout(function() {
-          console.log(index);
-          geocoder.geocode( { 'address': li.data("address")}, function(results, status) {
-          if (status == google.maps.GeocoderStatus.OK) {
-            var marker = new google.maps.Marker({
-                map: map,
-                position: results[0].geometry.location
-            });
-
-            var infowindow = new google.maps.InfoWindow({
-              content: html
-            });
-
-            infoWindows.push(infowindow);
-            li.data('infoWindow', infowindow);
-            li.data('marker', marker);
-
-            google.maps.event.addListener(marker, 'click', function() {
-              closeAllInfoWindows();
-              infowindow.open(map,marker);
-            });
-
-          } else {
-            // error
-            console.log('Geocode was not successful for the following reason: ' + status);
-          }
-        });
-        }, index*500);
-      });
-    }
-    
-    function closeAllInfoWindows() {
-      for (var i=0;i<infoWindows.length;i++) {
-        infoWindows[i].close();
-      }
-    }
-
-    google.maps.event.addDomListener(window, 'load', initialize);
-  </script>
 
   <!-- Location related stuff -->
   <script>
@@ -155,34 +93,26 @@
   </nav>
   
   <div class="container">
-    <div class="row">
-      <div class="col-sm-7 col-sm-push-5 text-muted" id="mapWrap">
-        <div id="map-canvas" style="width: 100%; height: 100%"></div>
+    <div class="row text-center">
+      <div class="col-sm-4">
+        <h2>Search</h2>
+        <p>Use custom filters and tools created with students in mind to search for food locations on or off campus.</p>
+        <div class="screenshot" id="search">
+          <img src="/img/search.png" alt="search page">
+        </div>
       </div>
-      <div class="col-sm-5 col-sm-pull-7">
-        <h3>Results</h3>
-        <div class="list-group" id="results">
-          {{#each results.businesses}}
-          <a href="/listing/{{id}}" class="list-group-item result" data-address="{{location.address}} {{location.city}}">
-            <div class="media">
-              <span class="pull-left">
-                <img class="media-object img-circle" src="{{image_url}}" alt="{{name}}">
-              </span>
-              <div class="media-body">
-                <h5>{{name}}</h5>
-                <p>Yelp: <img src="{{rating_img_url}}"/></p>
-                <p>Tridents: 
-                  <span class="tridents">{{#if avgTridents}}
-                    {{{avgTridents}}}
-                  {{else}}
-                    <img src="/img/trident.png" alt="trident" class="notrident"/><img src="/img/trident.png" alt="trident" class="notrident"/><img src="/img/trident.png" alt="trident" class="notrident"/><img src="/img/trident.png" alt="trident" class="notrident"/><img src="/img/trident.png" alt="trident" class="notrident"/>
-                  {{/if}}
-                  </span>
-                </p>
-              </div>
-            </div>
-          </a>
-          {{/each}}
+      <div class="col-sm-4">
+        <h2>Discover</h2>
+        <p>Use reviews, tips, photos, details, and advanced tools to discover all that UCSD has to offer.</p>
+        <div class="screenshot" id="discover">
+          <img src="/img/discover.png" alt="listing page">
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <h2>Connect</h2>
+        <p>Connect with Facebook and other users in various ways to bring your UCSD social experience to a new level.</p>
+        <div class="screenshot" id="connect">
+          <img src="/img/connect.png" alt="check in" class="screenshot">
         </div>
       </div>
     </div>

@@ -54,7 +54,7 @@ app.use(auth.passport.session());
 //routes
 app.get('/', function(req, res) {
   if(req.param("location") === undefined) {
-    res.render('index', {user: req.user});
+    res.render('about', {user: req.user});
     return;
   }
 
@@ -187,7 +187,14 @@ app.get('/listing/:id', function(req, res) {
     }    
   });
 });
-app.get('/listing/', index.view);
+
+app.get('/listing/', function(req,res) {
+  res.redirect('/about');
+});
+
+app.get('/about', function(req,res) {
+  res.render('about', {user: req.user});
+});
 
 app.post('/review', function(req, res) {
   if(req.body.yelpid === undefined) {
