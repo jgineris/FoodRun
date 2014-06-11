@@ -51,3 +51,9 @@ body {
 #accountSettings {
     margin-bottom: 20px;
 }
+
+@media (min-width: 768px) and (max-width: 880px) {
+    #locationInput {
+        display: none;
+    }
+}
