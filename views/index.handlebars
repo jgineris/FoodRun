@@ -128,10 +128,10 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <form class="navbar-form navbar-left" role="search" method="get" action="/">
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search" name="query" value="{{#if query}}{{query}}{{/if}}" pattern="[^\s]+" required>
+            <input type="text" class="form-control" placeholder="Search" name="query" value="{{#if query}}{{query}}{{/if}}" pattern=".*\S+.*" required>
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" id="locationInput" name="location" placeholder="Location" value="{{#if location}}{{location}}{{else}}La Jolla, CA{{/if}}" pattern="[^\s]+" required>
+            <input type="text" class="form-control" id="locationInput" name="location" placeholder="Location" value="{{#if location}}{{location}}{{else}}La Jolla, CA{{/if}}" pattern=".*\S+.*" required>
           </div>
           <input type="hidden" class="form-control" id="ll" name="ll">
           <button type="submit" class="btn btn-default">Submit</button>
