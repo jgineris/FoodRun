@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>{{listing.name}} - Triton Connect</title> 
+  <title>Account - Triton Connect</title> 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Bootstrap CSS -->
@@ -56,10 +56,10 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <form class="navbar-form navbar-left" role="search" method="get" action="/">
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search" name="query" value="{{#if query}}{{query}}{{/if}}" required>
+            <input type="text" class="form-control" placeholder="Search" name="query" value="{{#if query}}{{query}}{{/if}}" pattern="[^\s]+" required>
           </div>
           <div class="form-group">
-            <input type="text" class="form-control" id="locationInput" name="location" placeholder="Location" value="{{#if location}}{{location}}{{else}}La Jolla, CA{{/if}}" required>
+            <input type="text" class="form-control" id="locationInput" name="location" placeholder="Location" value="{{#if location}}{{location}}{{else}}La Jolla, CA{{/if}}" pattern="[^\s]+" required>
           </div>
           <input type="hidden" class="form-control" id="ll" name="ll">
           <button type="submit" class="btn btn-default">Submit</button>
@@ -84,64 +84,90 @@
   
   <div class="container">
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-sm-12">
         {{#if newUser}}
         <div class="alert alert-info">Set up your account below!</div>
         {{/if}}
         {{#if saved}}
         <div class="alert alert-success">Saved.</div>
         {{/if}}
-        <h2>Account settings</h2>
+        <h2>Account</h2>
         <form role="form" method="post" action="/account" id="accountSettings">
-          <div class="form-group">
-            <label for="fName">First Name</label>
-            <input type="text" class="form-control" id="fName" name="fName" placeholder="First Name" value="{{account.fName}}">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="fName">First Name</label>
+                <input type="text" class="form-control" id="fName" name="fName" placeholder="First Name" value="{{account.fName}}" pattern="[^\s]+" required>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="lName">Last Name</label>
+                <input type="text" class="form-control" id="lName" name="lName" placeholder="Last Name" value="{{account.lName}}" pattern="[^\s]+" required>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="lName">Last Name</label>
-            <input type="text" class="form-control" id="lName" name="lName" placeholder="Last Name" value="{{account.lName}}">
+          
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="since">Living in San Diego since</label>
+                <input type="number" class="form-control" id="since" name="since" placeholder="Year" value="{{account.yearMoved}}" min="1900" max="2014" required>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="travel">Preferred Method of Travel</label>
+                <select name="travel" id="travel" class="form-control" required>
+                  <option value="" disabled selected></option>
+                  <option value="1" {{#ifCond 1 account.preferredTravel}}selected="selected"{{/ifCond}}>Car</option>
+                  <option value="2" {{#ifCond 2 account.preferredTravel}}selected="selected"{{/ifCond}}>Bike</option>
+                  <option value="3" {{#ifCond 3 account.preferredTravel}}selected="selected"{{/ifCond}}>Public Transit</option>
+                  <option value="4" {{#ifCond 4 account.preferredTravel}}selected="selected"{{/ifCond}}>Walk</option>
+                </select>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="year">Year</label>
-            <select name="year" id="year" class="form-control">
-              <option value="1" {{#ifCond 1 account.year}}selected="selected"{{/ifCond}}>Freshman</option>
-              <option value="2" {{#ifCond 2 account.year}}selected="selected"{{/ifCond}}>Sophomore</option>
-              <option value="3" {{#ifCond 3 account.year}}selected="selected"{{/ifCond}}>Junior</option>
-              <option value="4" {{#ifCond 4 account.year}}selected="selected"{{/ifCond}}>Senior</option>
-              <option value="5" {{#ifCond 5 account.year}}selected="selected"{{/ifCond}}>Super Senior</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="type">Type of Student</label>
-            <select name="type" id="type" class="form-control">
-              <option value="1" {{#ifCond 1 account.typeOfStudent}}selected="selected"{{/ifCond}}>Undergraduate</option>
-              <option value="2" {{#ifCond 2 account.typeOfStudent}}selected="selected"{{/ifCond}}>Graduate</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="since">Living in San Diego since</label>
-            <input type="number" class="form-control" id="since" name="since" placeholder="Year" value="{{account.yearMoved}}">
-          </div>
-          <div class="form-group">
-            <label for="college">College</label>
-            <select name="college" id="college" class="form-control">
-              <option value="1" {{#ifCond 1 account.college}}selected="selected"{{/ifCond}}>Revelle</option>
-              <option value="2" {{#ifCond 2 account.college}}selected="selected"{{/ifCond}}>Muir</option>
-              <option value="3" {{#ifCond 3 account.college}}selected="selected"{{/ifCond}}>Marshall</option>
-              <option value="4" {{#ifCond 4 account.college}}selected="selected"{{/ifCond}}>Warren</option>
-              <option value="5" {{#ifCond 5 account.college}}selected="selected"{{/ifCond}}>Roosevelt</option>
-              <option value="6" {{#ifCond 6 account.college}}selected="selected"{{/ifCond}}>Sixth</option>
-              <option value="7" {{#ifCond 7 account.college}}selected="selected"{{/ifCond}}>N/A</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="travel">Preferred Method of Travel</label>
-            <select name="travel" id="travel" class="form-control">
-              <option value="1" {{#ifCond 1 account.preferredTravel}}selected="selected"{{/ifCond}}>Car</option>
-              <option value="2" {{#ifCond 2 account.preferredTravel}}selected="selected"{{/ifCond}}>Bike</option>
-              <option value="3" {{#ifCond 3 account.preferredTravel}}selected="selected"{{/ifCond}}>Public Transit</option>
-              <option value="4" {{#ifCond 4 account.preferredTravel}}selected="selected"{{/ifCond}}>Walk</option>
-            </select>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="year">Year</label>
+                <select name="year" id="year" class="form-control" required>
+                  <option value="" disabled selected></option>
+                  <option value="1" {{#ifCond 1 account.year}}selected="selected"{{/ifCond}}>Freshman</option>
+                  <option value="2" {{#ifCond 2 account.year}}selected="selected"{{/ifCond}}>Sophomore</option>
+                  <option value="3" {{#ifCond 3 account.year}}selected="selected"{{/ifCond}}>Junior</option>
+                  <option value="4" {{#ifCond 4 account.year}}selected="selected"{{/ifCond}}>Senior</option>
+                  <option value="5" {{#ifCond 5 account.year}}selected="selected"{{/ifCond}}>Super Senior</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="type">Type of Student</label>
+                <select name="type" id="type" class="form-control" required>
+                  <option value="" disabled selected></option>
+                  <option value="1" {{#ifCond 1 account.typeOfStudent}}selected="selected"{{/ifCond}}>Undergraduate</option>
+                  <option value="2" {{#ifCond 2 account.typeOfStudent}}selected="selected"{{/ifCond}}>Graduate</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="college">College</label>
+                <select name="college" id="college" class="form-control" required>
+                  <option value="" disabled selected></option>
+                  <option value="1" {{#ifCond 1 account.college}}selected="selected"{{/ifCond}}>Revelle</option>
+                  <option value="2" {{#ifCond 2 account.college}}selected="selected"{{/ifCond}}>Muir</option>
+                  <option value="3" {{#ifCond 3 account.college}}selected="selected"{{/ifCond}}>Marshall</option>
+                  <option value="4" {{#ifCond 4 account.college}}selected="selected"{{/ifCond}}>Warren</option>
+                  <option value="5" {{#ifCond 5 account.college}}selected="selected"{{/ifCond}}>Roosevelt</option>
+                  <option value="6" {{#ifCond 6 account.college}}selected="selected"{{/ifCond}}>Sixth</option>
+                  <option value="7" {{#ifCond 7 account.college}}selected="selected"{{/ifCond}}>N/A</option>
+                </select>
+              </div>
+            </div>
           </div>
           <input type="hidden" name="referer" value="{{referer}}">
           <button type="submit" class="btn btn-default">Submit</button>
