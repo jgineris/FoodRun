@@ -52,6 +52,10 @@ app.use(auth.passport.initialize());
 app.use(auth.passport.session());
 
 //routes
+app.get('/test', function(req, res) {
+  res.render('test');
+});
+
 app.get('/', function(req, res) {
   if(req.param("location") === undefined) {
     res.render('about', {user: req.user});

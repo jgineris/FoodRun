@@ -1,0 +1,23 @@
+body {
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+html,body,.container,.row {
+  height: 100%;
+}
+
+.row > div {
+  height: 100%;
+  overflow: hidden;
+}
+
+iframe {
+	height: 100%;
+  width: 100%;
+  border: 3px solid #f0ad4e;
+}
+
+#mobile {
+  border-color: #d9534f;
+}
